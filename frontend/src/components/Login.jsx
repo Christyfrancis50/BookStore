@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const {
@@ -9,8 +11,33 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
-  
+  const onSubmit = async (data) => {
+    const userInfo = {
+      email: data.email,
+      password: data.password,
+    };
+    await axios
+      .post("http://localhost:4001/user/login", userInfo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          toast.success("Logged In Successfully!");
+          document.getElementById("my_modal_3").close();
+          setTimeout(() => {
+            window.location.reload();
+            localStorage.setItem("Users", JSON.stringify(res.data.user));
+          }, 1000);
+        }
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err);
+          toast.error("Error:" + err.response.data.message);
+          setTimeout(() => {}, 2000)
+        }
+      });
+  };
+
   return (
     <div>
       <dialog id="my_modal_3" className="modal">
@@ -20,6 +47,7 @@ const Login = () => {
             <Link
               to="/"
               className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-xl"
+              onClick={() => document.getElementById("my_modal_3").close()}
             >
               ✕
             </Link>
@@ -36,7 +64,11 @@ const Login = () => {
                 className="w-[100%] px-3 py-2 border rounded-md outline-none"
                 {...register("email", { required: true })}
               />
-              {errors.email && <span className="test-sm text-red-500">This field is required</span>}
+              {errors.email && (
+                <span className="test-sm text-red-500">
+                  This field is required
+                </span>
+              )}
             </div>
             {/* Password  */}
             <div className="py-4 space-y-3">
@@ -49,7 +81,11 @@ const Login = () => {
                 className="w-[100%] px-3 py-2 border rounded-md outline-none"
                 {...register("password", { required: true })}
               />
-              {errors.password && <span className="test-sm  text-red-500">This field is required</span>}
+              {errors.password && (
+                <span className="test-sm  text-red-500">
+                  This field is required
+                </span>
+              )}
             </div>
             {/* button  */}
             <div className="flex justify-between mt-4">

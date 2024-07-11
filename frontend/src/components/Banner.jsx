@@ -28,7 +28,7 @@ export const Banner = () => {
             <input type="text" className="grow" placeholder="Email" />
           </label>
           </div>
-          <button className="btn btn-secondary mt-6">Secondary</button>
+          <button className="btn btn-secondary mt-6">Know More</button>
         </div>
         <div className="w-full md:w-1/2 flex justify-center md:justify-end items-center mt-12 md:mt-12 md:pt-8 order-1 md:order-2">
         <img src={BannerImg} alt="#" className=" w-[60vw] h-[60vw] md:w-[30vw] md:h-[30vw]"/>
