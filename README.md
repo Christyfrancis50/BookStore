@@ -1,0 +1,1 @@
+These is simple Book store website using react which has the functionality of signup, login and logout. In these project react, tailwind, mongodb, node, express has been used with few external packages for design and validation part.
